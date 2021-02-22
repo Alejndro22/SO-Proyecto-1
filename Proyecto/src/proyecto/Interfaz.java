@@ -82,6 +82,7 @@ public class Interfaz extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Hora = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,6 +106,13 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Hora");
 
+        jButton3.setText("Imprimir ArrayList");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -123,7 +131,8 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGap(121, 121, 121)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(333, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -134,7 +143,9 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(79, 79, 79)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -163,11 +174,15 @@ public class Interfaz extends javax.swing.JFrame {
         int randomN = (int) (Math.random() * (30 - 5 + 1) + 5);
         //
         // Se crea un nuevo proceso cada vez que se presiona el botón, se almacena en :
+        
+        // Se debe ver que si no se puede crear el proceso restar 1 a nProcesos y eliminar
+        // la entrada del arraylist
+        
         nProcesos++;
         Proceso Process = new Proceso(nProcesos, randomN, 0, 0, 0);
         Procesos.add(Process);
         // También se añade un rectanguo para pintar (Pruebas)
-        int randSpot = lookForAvaliableSpot(randomN);
+        int randSpot = lookForAvaliableSpot(randomN);        
         Rectangulos.add(new Rectangle(60,randSpot,119,randomN));
         // Se llama al método repaint para pintar de nuevo todos los rectangulos en el arraylist
         repaint();
@@ -180,6 +195,18 @@ public class Interfaz extends javax.swing.JFrame {
         nProcesos--;
         repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        for(int i=0; i<Procesos.size();i++){
+            System.out.println("--------- Proceso no. " + i + " ---------");
+            System.out.println("Identificador: " + Procesos.get(i).getIdentificador());
+            System.out.println("Tamaño: " + Procesos.get(i).getTamaño());
+            System.out.println("LowerSpot: " + Procesos.get(i).getRegistroBase());
+            System.out.println("HigherSpot: " + Procesos.get(i).getRegistroLimite());
+            
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,6 +224,9 @@ public class Interfaz extends javax.swing.JFrame {
         pxHigher = randomS + rectangleSize; System.out.println(pxHigher);
         System.out.println("El valor de la bandera es " + avaliable);
         for(int i=0; i<Procesos.size()-1;i++){
+            
+            // El nuevo cuadro no está contenido en uno ya creado
+            
             if(pxLower >= Procesos.get(i).getRegistroBase() && pxLower <= Procesos.get(i).getRegistroLimite()){
                 System.out.println("El limite inferior interfiere");
                 System.out.println(Procesos.get(i).getRegistroBase());
@@ -204,19 +234,39 @@ public class Interfaz extends javax.swing.JFrame {
                 System.out.println(pxLower);
                 avaliable = false;
             }
-            if(pxHigher >= Procesos.get(i).getRegistroBase() && pxHigher <= Procesos.get(i).getRegistroLimite()){
+            else if(pxHigher >= Procesos.get(i).getRegistroBase() && pxHigher <= Procesos.get(i).getRegistroLimite()){
                 System.out.println("El limite superior interfiere");
                 System.out.println(Procesos.get(i).getRegistroBase());
                 System.out.println(Procesos.get(i).getRegistroLimite());
                 System.out.println(pxHigher);
                 avaliable = false;
             }
+            
+            // El nuevo cuadro no contiene uno ya creado
+            
+            else if(Procesos.get(i).getRegistroBase() >= pxLower && Procesos.get(i).getRegistroBase() <= pxHigher){
+                System.out.println("El limite inferior de un cuadro existente interfiere");
+                System.out.println(Procesos.get(i).getRegistroBase());
+                System.out.println(Procesos.get(i).getRegistroLimite());
+                System.out.println(pxLower);
+                avaliable = false;
+            }
+            
+            else if(Procesos.get(i).getRegistroLimite() >= pxLower && Procesos.get(i).getRegistroLimite() <= pxHigher){
+                System.out.println("El limite superior de un cuadro existente interfiere");
+                System.out.println(Procesos.get(i).getRegistroBase());
+                System.out.println(Procesos.get(i).getRegistroLimite());
+                System.out.println(pxLower);
+                avaliable = false;
+            }
+            
             if(avaliable==false){
                 break;
             }
         }
         System.out.println("El valor de la bandera es " + avaliable);
         if(avaliable==true){
+            //Acá se agregan los atributos de registro base y límite para el planificador
             Procesos.get(nProcesos-1).setRegistroBase(pxLower);
             Procesos.get(nProcesos-1).setRegistroLimite(pxHigher);
             return randomS;
@@ -274,6 +324,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel Hora;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelMemoria;
     private javax.swing.JPanel jPanel1;
