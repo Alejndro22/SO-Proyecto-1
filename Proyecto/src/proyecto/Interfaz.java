@@ -5,12 +5,14 @@
  */
 package proyecto;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,9 +34,12 @@ public class Interfaz extends javax.swing.JFrame {
     ArrayList<Proceso> Procesos = new ArrayList();    
 //    Arraylist donde se almacenarán los rectángulos a pintar (class Rectangle)
     ArrayList<Rectangle> Rectangulos = new ArrayList();    
-    
+//    Objero para crear un numero random  
+    Random rand = new Random();
+//    Cantidad de procesos creados
+    int nProcesos = 0;
 //    Variables de prueba
-    int xAxis=0, yAxis=0;
+    int xAxis = 0, yAxis = 0;
     
     public Interfaz() {
         horario.start();
@@ -80,6 +85,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabelMemoria.setBackground(new java.awt.Color(255, 255, 255));
         jLabelMemoria.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton1.setText("Crear proceso");
@@ -103,14 +109,6 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jLabelMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(121, 121, 121)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(333, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,6 +117,14 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25)))
                 .addGap(60, 60, 60))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jLabelMemoria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(121, 121, 121)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(333, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,28 +158,77 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //
+        // AVANZAR CON HACERLOS DE TAMAÑOS ALEATORIOS (Entre 5 y 30 px de alto)
+        int randomN = (int) (Math.random() * (30 - 5 + 1) + 5);
+        //
         // Se crea un nuevo proceso cada vez que se presiona el botón, se almacena en :
-        Proceso Process = new Proceso();
+        nProcesos++;
+        Proceso Process = new Proceso(nProcesos, randomN, 0, 0, 0);
         Procesos.add(Process);
         // También se añade un rectanguo para pintar (Pruebas)
-        //
-        // AVANZAR CON HACERLOS DE TAMAÑOS ALEATORIOS (ALTO)
-        //
-        
-        Rectangulos.add(new Rectangle(jLabelMemoria.getX() + 7,jLabelMemoria.getY() + 30,119,35));
+        int randSpot = lookForAvaliableSpot(randomN);
+        Rectangulos.add(new Rectangle(60,randSpot,119,randomN));
         // Se llama al método repaint para pintar de nuevo todos los rectangulos en el arraylist
         repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Pruebas de rectángulos:
+        Procesos.remove(0);
         Rectangulos.remove(0);
+        nProcesos--;
         repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    int randomS=0;
+    int pxLower=0;
+    int pxHigher=0;
+    boolean avaliable;
+    public int lookForAvaliableSpot(int rectangleSize){
+        System.out.println("-----Nuevo-----");
+        avaliable = true;
+        // Los valores para agregar procesos están entre 102-496
+        randomS = (int) (Math.random() * (496 - 102 + 1) + 102);
+        pxLower = randomS; System.out.println(pxLower);
+        pxHigher = randomS + rectangleSize; System.out.println(pxHigher);
+        System.out.println("El valor de la bandera es " + avaliable);
+        for(int i=0; i<Procesos.size()-1;i++){
+            if(pxLower >= Procesos.get(i).getRegistroBase() && pxLower <= Procesos.get(i).getRegistroLimite()){
+                System.out.println("El limite inferior interfiere");
+                System.out.println(Procesos.get(i).getRegistroBase());
+                System.out.println(Procesos.get(i).getRegistroLimite());
+                System.out.println(pxLower);
+                avaliable = false;
+            }
+            if(pxHigher >= Procesos.get(i).getRegistroBase() && pxHigher <= Procesos.get(i).getRegistroLimite()){
+                System.out.println("El limite superior interfiere");
+                System.out.println(Procesos.get(i).getRegistroBase());
+                System.out.println(Procesos.get(i).getRegistroLimite());
+                System.out.println(pxHigher);
+                avaliable = false;
+            }
+            if(avaliable==false){
+                break;
+            }
+        }
+        System.out.println("El valor de la bandera es " + avaliable);
+        if(avaliable==true){
+            Procesos.get(nProcesos-1).setRegistroBase(pxLower);
+            Procesos.get(nProcesos-1).setRegistroLimite(pxHigher);
+            return randomS;
+        }else{
+            System.out.println(avaliable);
+            System.out.println("Se hará de nuevo por fallo"); 
+            lookForAvaliableSpot(rectangleSize);
+        }
+        System.out.println("finalizó");
+        return randomS;
+    }
+    
     public static void main(String args[]) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -189,7 +244,28 @@ public class Interfaz extends javax.swing.JFrame {
         super.paint(g);
         // Pinta los rectángulos que están en el arraylist
         for(int i=0; i<Rectangulos.size();i++){
-            g.drawRect(Rectangulos.get(i).x, Rectangulos.get(i).y, Rectangulos.get(i).width, Rectangulos.get(i).height);
+//            int int_random = rand.nextInt(5); 
+//            switch(int_random) {
+//                case 0:
+//                  g.setColor(Color.BLUE);
+//                  break;
+//                case 1:
+//                  g.setColor(Color.RED);
+//                  break;
+//                case 2:
+//                  g.setColor(Color.YELLOW);
+//                  break;
+//                case 3:
+//                  g.setColor(Color.GREEN);
+//                  break;
+//                case 4:
+//                  g.setColor(Color.orange);
+//                  break;
+//                default:
+//                  // code block
+//            }
+            g.setColor(Color.orange);
+            g.fillRect(Rectangulos.get(i).x, Rectangulos.get(i).y, Rectangulos.get(i).width, Rectangulos.get(i).height);
         }
     }
     
