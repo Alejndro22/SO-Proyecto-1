@@ -5,8 +5,11 @@
  */
 package proyecto;
 
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,13 +21,20 @@ import java.util.logging.Logger;
  * @author Douglas
  */
 public class Interfaz extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Interfaz
      */
-
+    
 //    Objeto de la clase hora
     Hora horario = new Hora();
+//    Arraylist donde se almacenarán los procesos para dejarlo simple
+    ArrayList<Proceso> Procesos = new ArrayList();    
+//    Arraylist donde se almacenarán los rectángulos a pintar (class Rectangle)
+    ArrayList<Rectangle> Rectangulos = new ArrayList();    
+    
+//    Variables de prueba
+    int xAxis=0, yAxis=0;
     
     public Interfaz() {
         horario.start();
@@ -41,7 +51,7 @@ public class Interfaz extends javax.swing.JFrame {
                     //    Cada segundo se crea objeto de la clase date, que obtiene la hora exacta en la que se crea
                     Date date = new Date();
                     DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-                    Hora.setText(dateFormat.format(date));
+                    Hora.setText(dateFormat.format(date));                  
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
@@ -51,7 +61,7 @@ public class Interfaz extends javax.swing.JFrame {
                 
         }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,34 +73,82 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         Hora = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Hora");
+
+        jButton1.setText("Crear proceso");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Borrar primero");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(565, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Hora, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(101, 101, 101))
+                .addGap(94, 94, 94))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(271, 271, 271)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
+                .addContainerGap(356, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Hora, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(328, Short.MAX_VALUE))
+                .addGap(58, 58, 58))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Se crea un nuevo proceso cada vez que se presiona el botón, se almacena en :
+        Proceso Process = new Proceso();
+        Procesos.add(Process);
+        // También se añade un rectanguo para pintar (Pruebas)
+        //
+        // AVANZAR CON HACERLOS DE TAMAÑOS ALEATORIOS (ALTO)
+        //
+        Rectangulos.add(new Rectangle(20+xAxis,75+yAxis,35,35));
+        xAxis = xAxis + 10;
+        yAxis = yAxis + 10;
+        // Se llama al método repaint para pintar de nuevo todos los rectangulos en el arraylist
+        repaint();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Pruebas de rectángulos:
+        Rectangulos.remove(0);
+        repaint();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,9 +161,22 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        // Pinta los rectángulos que están en el arraylist
+        for(int i=0; i<Rectangulos.size();i++){
+            g.drawRect(Rectangulos.get(i).x, Rectangulos.get(i).y, Rectangulos.get(i).width, Rectangulos.get(i).height);
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Hora;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
