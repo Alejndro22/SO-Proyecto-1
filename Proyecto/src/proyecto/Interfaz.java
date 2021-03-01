@@ -37,7 +37,7 @@ public class Interfaz extends javax.swing.JFrame {
 //    Objero para crear un numero random  
     Random rand = new Random();
 //    Cantidad de procesos creados
-    int nProcesos = 0;
+    int nProcesos = 0;  
 //    Variables de prueba
     int xAxis = 0, yAxis = 0;
     
@@ -171,7 +171,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //
         // AVANZAR CON HACERLOS DE TAMAÑOS ALEATORIOS (Entre 5 y 30 px de alto)
-        int randomN = (int) (Math.random() * (30 - 5 + 1) + 5);
+        int randomN = (int) (Math.random() * (100 - 30 + 1) + 5);
         //
         // Se crea un nuevo proceso cada vez que se presiona el botón, se almacena en :
         
@@ -179,8 +179,17 @@ public class Interfaz extends javax.swing.JFrame {
         // la entrada del arraylist
         
         nProcesos++;
-        Proceso Process = new Proceso(nProcesos, randomN, 0, 0, 0);
-        Procesos.add(Process);
+//        Compara si la lista de procesos está vacía, de ser así solo añade el proceso sin siguiente
+//        En caso de no ser el primero, asigna al anterior que el nuevo será el siguiente, y el nuevo
+//        Apuntará al primero que se encuentra en el index 0
+        if(Procesos.isEmpty()){
+            Proceso Proces0 = new Proceso(nProcesos, randomN, 0, 0, 0, null);
+            Procesos.add(Proces0);
+        }else{
+            Proceso Proces0 = new Proceso(nProcesos, randomN, 0, 0, 0, Procesos.get(0));
+            Procesos.get(Procesos.size()-1).setSiguiente(Proces0);
+            Procesos.add(Proces0);
+        }
         // También se añade un rectanguo para pintar (Pruebas)
         int randSpot = lookForAvaliableSpot(randomN);        
         Rectangulos.add(new Rectangle(60,randSpot,119,randomN));
@@ -192,7 +201,7 @@ public class Interfaz extends javax.swing.JFrame {
         // Pruebas de rectángulos:
         Procesos.remove(0);
         Rectangulos.remove(0);
-        nProcesos--;
+        Procesos.get(Procesos.size()-1).setSiguiente(Procesos.get(0));
         repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -204,7 +213,9 @@ public class Interfaz extends javax.swing.JFrame {
             System.out.println("Tamaño: " + Procesos.get(i).getTamaño());
             System.out.println("LowerSpot: " + Procesos.get(i).getRegistroBase());
             System.out.println("HigherSpot: " + Procesos.get(i).getRegistroLimite());
-            
+            if(Procesos.size()>1){
+                System.out.println("El proceso siguiente es: " + Procesos.get(i).getSiguiente().getIdentificador());
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -267,8 +278,8 @@ public class Interfaz extends javax.swing.JFrame {
         System.out.println("El valor de la bandera es " + avaliable);
         if(avaliable==true){
             //Acá se agregan los atributos de registro base y límite para el planificador
-            Procesos.get(nProcesos-1).setRegistroBase(pxLower);
-            Procesos.get(nProcesos-1).setRegistroLimite(pxHigher);
+            Procesos.get(Procesos.size()-1).setRegistroBase(pxLower);
+            Procesos.get(Procesos.size()-1).setRegistroLimite(pxHigher);
             return randomS;
         }else{
             System.out.println(avaliable);

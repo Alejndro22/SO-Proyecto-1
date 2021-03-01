@@ -15,13 +15,15 @@ public class Proceso {
     private int cantInstrucciones;
     private int registroBase;
     private int registroLimite;
+    private Proceso siguiente;
 
-    public Proceso(int Identificador, int Tamaño, int cantInstrucciones, int registroBase, int registroLimite) {
+    public Proceso(int Identificador, int Tamaño, int cantInstrucciones, int registroBase, int registroLimite, Proceso siguiente) {
         this.Identificador = Identificador;
         this.Tamaño = Tamaño;
         this.cantInstrucciones = cantInstrucciones;
         this.registroBase = registroBase;
         this.registroLimite = registroLimite;
+        this.siguiente = siguiente;
     }
     
     public Proceso(){
@@ -30,6 +32,7 @@ public class Proceso {
         this.cantInstrucciones = 0;
         this.registroBase = 0;
         this.registroLimite = 0;
+        this.siguiente = null;
     }
     
     public int getIdentificador() {
@@ -71,6 +74,12 @@ public class Proceso {
     public void setRegistroLimite(int registroLimite) {
         this.registroLimite = registroLimite;
     }
-    
-    
+
+    public Proceso getSiguiente() {
+        return siguiente;
+    }
+
+    public void setSiguiente(Proceso siguiente) {
+        this.siguiente = siguiente;
+    }
 }
