@@ -35,10 +35,14 @@ public class Interfaz extends javax.swing.JFrame {
     DefaultListModel listModel = new DefaultListModel();
 //    Objeto de la clase hora
     Hora horario = new Hora();
+//    Se declara el objeto de la clase rr
+    round_robin rr = new round_robin();
 //    Arraylist donde se almacenarán los procesos para dejarlo simple
     ArrayList<Proceso> Procesos = new ArrayList();    
 //    Arraylist donde se almacenarán los rectángulos a pintar (class Rectangle)
     ArrayList<Rectangle> Rectangulos = new ArrayList();    
+//    Arraylist donde se almacenará por donde va el rectángulo a pintar (class Rectangle)
+    ArrayList<Rectangle> ContadorBarra = new ArrayList(); 
 //    Objero para crear un numero random  
     Random rand = new Random();
 //    Cantidad de procesos creados
@@ -48,6 +52,7 @@ public class Interfaz extends javax.swing.JFrame {
     
     public Interfaz() {
         horario.start();
+        rr.start();
         initComponents();
         jListHistorial.setModel(listModel);
     }
@@ -221,8 +226,8 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //
-        // AVANZAR CON HACERLOS DE TAMAÑOS ALEATORIOS (Entre 5 y 30 px de alto)
-        int randomN = (int) (Math.random() * (100 - 30 + 1) + 5);
+        // AVANZAR CON HACERLOS DE TAMAÑOS ALEATORIOS (Entre 5 y 15 segundos de duraci[on)
+        int randomN = (int) (Math.random() * (15 - 5 + 1) + 5);
         //
         // Se crea un nuevo proceso cada vez que se presiona el botón, se almacena en :
         
@@ -234,18 +239,18 @@ public class Interfaz extends javax.swing.JFrame {
 //        En caso de no ser el primero, asigna al anterior que el nuevo será el siguiente, y el nuevo
 //        Apuntará al primero que se encuentra en el index 0
         if(Procesos.isEmpty()){
-            Proceso Proces0 = new Proceso(nProcesos, randomN, 0, 0, 0, null);
+            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 0, 0, null);
             Procesos.add(Proces0);
         }else{
-            Proceso Proces0 = new Proceso(nProcesos, randomN, 0, 0, 0, Procesos.get(0));
+            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 0, 0, Procesos.get(0));
             Procesos.get(Procesos.size()-1).setSiguiente(Proces0);
             Procesos.add(Proces0);
         }
         // También se añade un rectanguo para pintar (Pruebas)
-        int randSpot = lookForAvaliableSpot(randomN);        
-        Rectangulos.add(new Rectangle(60,randSpot,119,randomN));
+        int randSpot = lookForAvaliableSpot(randomN*5);        
+        Rectangulos.add(new Rectangle(60,randSpot,119,randomN*5));
         // Se llama al método repaint para pintar de nuevo todos los rectangulos en el arraylist
-        listModel.addElement("P" + nProcesos + " creado a las " + Hora.getText());
+        listModel.addElement("P" + nProcesos + " creado a las " + Hora.getText() + " de duración = " + Procesos.get(Procesos.size()-1).getCantInstrucciones() + " s");
         repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -263,6 +268,7 @@ public class Interfaz extends javax.swing.JFrame {
             System.out.println("--------- Proceso no. " + i + " ---------");
             System.out.println("Identificador: " + Procesos.get(i).getIdentificador());
             System.out.println("Tamaño: " + Procesos.get(i).getTamaño());
+            System.out.println("Instrucciones (s restantes): " + Procesos.get(i).getCantInstrucciones());
             System.out.println("LowerSpot: " + Procesos.get(i).getRegistroBase());
             System.out.println("HigherSpot: " + Procesos.get(i).getRegistroLimite());
             if(Procesos.size()>1){
@@ -351,13 +357,72 @@ public class Interfaz extends javax.swing.JFrame {
         });
     }
     
+    //Se define un quantum de 10 s
+    public class round_robin extends Thread{
+        boolean forever = true;
+        int tiempo = 0, pxInicio, barSize;        
+        Rectangle a = new Rectangle(6000,6000,119,barSize);;
+        @Override
+        public void run(){
+            ContadorBarra.add(a);
+            while(forever){
+                while(Procesos.size() > 0){
+                    for(int i=0; i<Procesos.size(); i++){
+                        pxInicio = Procesos.get(i).getRegistroBase() + (Procesos.get(i).getCantInstrucciones()-Procesos.get(i).getTiempoRestante())*5;
+                        barSize = 5;
+                        if(Procesos.get(i).getTiempoRestante()>10){
+                            for(int j=0; j<10; j++){
+                                a = new Rectangle(60,(pxInicio + (barSize*j)),119,barSize);
+                                ContadorBarra.set(0, a);
+                                repaint();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            Procesos.get(i).setTiempoRestante(Procesos.get(i).getTiempoRestante() - 10);
+                        }
+                        else{
+                            for(int j=0; j<Procesos.get(i).getTiempoRestante(); j++){
+                                a = new Rectangle(60,(pxInicio + (barSize*j)),119,barSize);
+                                ContadorBarra.set(0, a);
+                                repaint();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            listModel.addElement("P" + Procesos.get(i).getIdentificador() + " eliminado a las " + Hora.getText());
+                            Procesos.remove(i);
+                            Rectangulos.remove(i);
+                            if(i != Procesos.size()){
+                                i--;
+                            }
+                            repaint();
+                        }
+                    }
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
     
     public void paint(Graphics g)
     {
         super.paint(g);
         g.setColor(Color.GRAY);
-        g.fillRect(60, 100, 119, 400);
-        
+        g.fillRect(60, 100, 119, 400);      
         // Pinta los rectángulos que están en el arraylist
         for(int i=0; i<Rectangulos.size();i++){
 //            int int_random = rand.nextInt(5); 
@@ -382,6 +447,10 @@ public class Interfaz extends javax.swing.JFrame {
 //            }
             g.setColor(Color.BLUE);
             g.fillRect(Rectangulos.get(i).x, Rectangulos.get(i).y, Rectangulos.get(i).width, Rectangulos.get(i).height);
+        }
+        for(int i=0; i<ContadorBarra.size();i++){
+            g.setColor(Color.GREEN);
+            g.fillRect(ContadorBarra.get(i).x, ContadorBarra.get(i).y, ContadorBarra.get(i).width, ContadorBarra.get(i).height);
         }
     }
     

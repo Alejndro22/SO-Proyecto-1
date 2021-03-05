@@ -13,6 +13,7 @@ public class Proceso {
     private int Identificador;
     private int Tamaño;
     private int cantInstrucciones;
+    private int tiempoRestante;
     private int registroBase;
     private int registroLimite;
     private Proceso siguiente;
@@ -21,6 +22,7 @@ public class Proceso {
         this.Identificador = Identificador;
         this.Tamaño = Tamaño;
         this.cantInstrucciones = cantInstrucciones;
+        this.tiempoRestante = cantInstrucciones;
         this.registroBase = registroBase;
         this.registroLimite = registroLimite;
         this.siguiente = siguiente;
@@ -30,6 +32,7 @@ public class Proceso {
         this.Identificador = 0;
         this.Tamaño = 0;
         this.cantInstrucciones = 0;
+        this.tiempoRestante = 0;
         this.registroBase = 0;
         this.registroLimite = 0;
         this.siguiente = null;
@@ -57,6 +60,14 @@ public class Proceso {
 
     public void setCantInstrucciones(int cantInstrucciones) {
         this.cantInstrucciones = cantInstrucciones;
+    }
+
+    public int getTiempoRestante() {
+        return tiempoRestante;
+    }
+
+    public void setTiempoRestante(int tiempoRestante) {
+        this.tiempoRestante = tiempoRestante;
     }
 
     public int getRegistroBase() {
