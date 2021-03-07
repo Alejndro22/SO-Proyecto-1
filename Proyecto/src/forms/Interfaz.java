@@ -85,6 +85,8 @@ public class Interfaz extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jListHistorial = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
+        lblbarra = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,21 +124,34 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel2.setText("Historial");
 
+        jLabel3.setText("Contador de programa");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(lblbarra, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(212, Short.MAX_VALUE)
+                .addContainerGap(128, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblbarra, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -375,7 +390,7 @@ public class Interfaz extends javax.swing.JFrame {
     public class round_robin extends Thread{
         boolean forever = true;
         int tiempo = 0, pxInicio, barSize;        
-        Rectangle a = new Rectangle(6000,6000,119,barSize);;
+        Rectangle a = new Rectangle(0,0,119,barSize);;
         @Override
         public void run(){
             ContadorBarra.add(a);
@@ -432,9 +447,21 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
     
+    public static String decimalAHexadecimal(int decimal) {
+        String hexadecimal = "";
+        String caracteresHexadecimales = "0123456789abcdef";
+        while (decimal > 0) {
+            int residuo = decimal % 16;
+            hexadecimal = caracteresHexadecimales.charAt(residuo) + hexadecimal; // Agregar a la izquierda
+            decimal /= 16;
+        }
+        return hexadecimal;
+    }
+    
     public void paint(Graphics g){
         String posi;
         String posif;
+        String hex;
         Color procesos = new Color(171, 235, 198);
         Color so = new Color(46, 134, 193);
         Color lineas = new Color(14, 102, 85);
@@ -454,7 +481,7 @@ public class Interfaz extends javax.swing.JFrame {
             g.setColor(procesos);
             g.fillRect(Rectangulos.get(i).x, Rectangulos.get(i).y, Rectangulos.get(i).width, Rectangulos.get(i).height);
             g.setColor(letras);
-            posi = String.valueOf(Rectangulos.get(i).y);
+            posi = decimalAHexadecimal(Rectangulos.get(i).y);
             g.drawString(posi, Rectangulos.get(i).x-30, Rectangulos.get(i).y+5);
             g.setColor(lineas);
             g.drawLine(Rectangulos.get(i).x, Rectangulos.get(i).y, 209, Rectangulos.get(i).y);
@@ -462,6 +489,11 @@ public class Interfaz extends javax.swing.JFrame {
         for(int i=0; i<ContadorBarra.size();i++){
             g.setColor(Color.BLUE);
             g.fillRect(ContadorBarra.get(i).x, ContadorBarra.get(i).y, ContadorBarra.get(i).width, ContadorBarra.get(i).height);
+            System.out.println(ContadorBarra.get(i).y);
+            if (ContadorBarra.get(i).y > 0) {
+               hex = decimalAHexadecimal(ContadorBarra.get(i).y);
+               lblbarra.setText(hex);
+            }
         }
     }
     
@@ -473,11 +505,13 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelMenuPrincipall;
     private javax.swing.JLabel jLabelMenuPrincipall1;
     private javax.swing.JList<String> jListHistorial;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblbarra;
     // End of variables declaration//GEN-END:variables
 }
