@@ -225,16 +225,18 @@ public class Interfaz extends javax.swing.JFrame {
 //        Compara si la lista de procesos está vacía, de ser así solo añade el proceso sin siguiente
 //        En caso de no ser el primero, asigna al anterior que el nuevo será el siguiente, y el nuevo
 //        Apuntará al primero que se encuentra en el index 0
-        if(Procesos.isEmpty()){
-            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 0, 0, null);
-            Procesos.add(Proces0);
-        }else{
-            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 0, 0, Procesos.get(0));
-            Procesos.get(Procesos.size()-1).setSiguiente(Proces0);
-            Procesos.add(Proces0);
-        }
+//        if(Procesos.isEmpty()){
+//            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 0, 0, null);
+//            Procesos.add(Proces0);
+//        }else{
+//            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 0, 0, Procesos.get(0));
+//            Procesos.get(Procesos.size()-1).setSiguiente(Proces0);
+//            Procesos.add(Proces0);
+//        }
         //Verifica si es el primer rectangulo
         if (Rectangulos.size() == 0) {
+            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 100, 0, null);
+            Procesos.add(Proces0);
             PropiedadRect nuevo = new PropiedadRect(60, 100, 150, randomN*5);
             Rectangulos.add(new Rectangle(60,100,150,randomN*5));
             rec.add(nuevo);
@@ -246,6 +248,9 @@ public class Interfaz extends javax.swing.JFrame {
             }else{
                 //agrega el nuevo proceso y verifica donde deberia ir
                 nuevoy = ultimo();
+                Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, nuevoy, 0, Procesos.get(0));
+                Procesos.get(Procesos.size()-1).setSiguiente(Proces0);
+                Procesos.add(Proces0);
                 PropiedadRect nuevo = new PropiedadRect(60, nuevoy, 150, randomN*5);
                 Rectangulos.add(new Rectangle(60,nuevoy,150,randomN*5));
                 rec.add(nuevo);
@@ -381,7 +386,7 @@ public class Interfaz extends javax.swing.JFrame {
                         barSize = 5;
                         if(Procesos.get(i).getTiempoRestante()>10){
                             for(int j=0; j<10; j++){
-                                a = new Rectangle(60,(pxInicio + (barSize*j)),119,barSize);
+                                a = new Rectangle(60,(pxInicio + (barSize*j)),150,barSize);
                                 ContadorBarra.set(0, a);
                                 repaint();
                                 try {
@@ -394,7 +399,7 @@ public class Interfaz extends javax.swing.JFrame {
                         }
                         else{
                             for(int j=0; j<Procesos.get(i).getTiempoRestante(); j++){
-                                a = new Rectangle(60,(pxInicio + (barSize*j)),119,barSize);
+                                a = new Rectangle(60,(pxInicio + (barSize*j)),150,barSize);
                                 ContadorBarra.set(0, a);
                                 repaint();
                                 try {
@@ -455,7 +460,7 @@ public class Interfaz extends javax.swing.JFrame {
             g.drawLine(Rectangulos.get(i).x, Rectangulos.get(i).y, 209, Rectangulos.get(i).y);
         }
         for(int i=0; i<ContadorBarra.size();i++){
-            g.setColor(Color.GREEN);
+            g.setColor(Color.BLUE);
             g.fillRect(ContadorBarra.get(i).x, ContadorBarra.get(i).y, ContadorBarra.get(i).width, ContadorBarra.get(i).height);
         }
     }
