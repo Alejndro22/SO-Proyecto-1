@@ -466,9 +466,9 @@ public class Interfaz extends javax.swing.JFrame {
                         //Actualizacion del label calendarizador
                         jLabelCalendarizador.setText("P" + (i + 1));
                         //Actualizacion del label de registro base
-                        jLabelRB.setText("Registro base: " + Procesos.get(i).getRegistroBase());
+                        jLabelRB.setText("Registro base: " + Integer.toHexString(Procesos.get(i).getRegistroBase() - 100));
                         //Actualizacion del label de registro limite
-                        jLabelRL.setText("Registro limite: " + Procesos.get(i).getRegistroLimite());
+                        jLabelRL.setText("Registro limite: " + Integer.toHexString(Procesos.get(i).getRegistroLimite() - 100));
                         if(Procesos.get(i).getTiempoRestante()>10){
                             for(int j=0; j<10; j++){
                                 a = new Rectangle(60,(pxInicio + (barSize*j)),150,barSize);
