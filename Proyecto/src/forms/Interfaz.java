@@ -3,9 +3,7 @@ package forms;
 import clases.*;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,28 +19,27 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class Interfaz extends javax.swing.JFrame {
-
     int nuevoy = 100;
     ArrayList<PropiedadRect> rec = new ArrayList<>();
-
+    
     DefaultListModel listModel = new DefaultListModel();
 //    Objeto de la clase hora
     Hora horario = new Hora();
 //    Se declara el objeto de la clase rr
     round_robin rr = new round_robin();
 //    Arraylist donde se almacenarán los procesos para dejarlo simple
-    ArrayList<Proceso> Procesos = new ArrayList();
+    ArrayList<Proceso> Procesos = new ArrayList();    
 //    Arraylist donde se almacenarán los rectángulos a pintar (class Rectangle)
-    ArrayList<Rectangle> Rectangulos = new ArrayList();
+    ArrayList<Rectangle> Rectangulos = new ArrayList();    
 //    Arraylist donde se almacenará por donde va el rectángulo a pintar (class Rectangle)
-    ArrayList<Rectangle> ContadorBarra = new ArrayList();
+    ArrayList<Rectangle> ContadorBarra = new ArrayList(); 
 //    Objero para crear un numero random  
     Random rand = new Random();
 //    Cantidad de procesos creados
-    int nProcesos = 0;
+    int nProcesos = 0;  
 //    Variables de prueba
     int xAxis = 0, yAxis = 0;
-
+    
     public Interfaz() {
         horario.start();
         rr.start();
@@ -52,35 +49,32 @@ public class Interfaz extends javax.swing.JFrame {
         this.setResizable(false);
         jListHistorial.setModel(listModel);
     }
-
+    
     public class Hora extends Thread {
-
+        
         boolean stop = true;
-
-        @Override
-        public void run() {
-            while (stop) {
-                //    Cada segundo se crea objeto de la clase date, que obtiene la hora exacta en la que se crea
-                Date date = new Date();
-                DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-                Hora.setText(dateFormat.format(date));
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        @Override      
+        public void run(){
+                while (stop){
+                    //    Cada segundo se crea objeto de la clase date, que obtiene la hora exacta en la que se crea
+                    Date date = new Date();
+                    DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+                    Hora.setText(dateFormat.format(date));                  
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-
+                
         }
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Hora = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -92,6 +86,10 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         lblbarra = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblbarra1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblbarra2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,13 +97,6 @@ public class Interfaz extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Borrar primero");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -129,7 +120,19 @@ public class Interfaz extends javax.swing.JFrame {
 
         jLabel2.setText("Historial");
 
+        lblbarra.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         jLabel3.setText("Contador de programa");
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Registro base");
+
+        lblbarra1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Registro límite");
+
+        lblbarra2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -140,25 +143,46 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblbarra2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(lblbarra, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addGap(93, 93, 93)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblbarra1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblbarra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(128, Short.MAX_VALUE)
+                .addGap(73, 73, 73)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblbarra, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblbarra1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblbarra2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -176,7 +200,6 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(294, 294, 294)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, Short.MAX_VALUE))
                 .addGap(91, 91, 91)
@@ -203,12 +226,11 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                        .addGap(194, 194, 194)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Hora, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,10 +259,10 @@ public class Interfaz extends javax.swing.JFrame {
         int randomN = (int) (Math.random() * (15 - 5 + 1) + 5);
         //
         // Se crea un nuevo proceso cada vez que se presiona el botón, se almacena en :
-
+        
         // Se debe ver que si no se puede crear el proceso restar 1 a nProcesos y eliminar
         // la entrada del arraylist
-        nProcesos++;
+        
 //        Compara si la lista de procesos está vacía, de ser así solo añade el proceso sin siguiente
 //        En caso de no ser el primero, asigna al anterior que el nuevo será el siguiente, y el nuevo
 //        Apuntará al primero que se encuentra en el index 0
@@ -254,62 +276,48 @@ public class Interfaz extends javax.swing.JFrame {
 //        }
         //Verifica si es el primer rectangulo
         if (Rectangulos.size() == 0) {
-            Proceso Proces0 = new Proceso(nProcesos, randomN * 5, randomN, 100, 0, null);
+            nProcesos++;
+            Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, 100, nuevoy+randomN*5, null);
             Procesos.add(Proces0);
-            PropiedadRect nuevo = new PropiedadRect(60, 100, 150, randomN * 5);
-            Rectangulos.add(new Rectangle(60, 100, 150, randomN * 5));
+            PropiedadRect nuevo = new PropiedadRect(60, 100, 150, randomN*5);
+            Rectangulos.add(new Rectangle(60,100,150,randomN*5));
             rec.add(nuevo);
             //System.out.println("PRIMER NUMERO: " + randomN);
-        } else {
+            listModel.addElement("P" + nProcesos + " creado a las " + Hora.getText() + " de duración = " + Procesos.get(Procesos.size()-1).getCantInstrucciones() + " s");
+        }else{
             //Si el tamaño supera el rectangulo no se agrega ningun proceso
-            if (ultimo() > 450) {
-                JOptionPane.showMessageDialog(null, "No puedo agregar el proceso por falta de memoria!", "ERROR!!", JOptionPane.ERROR_MESSAGE);
-            } else {
+            if (ultimo() +  randomN > 471) {
+                JOptionPane.showMessageDialog(null, "No puedo agregar el proceso por falta de memoria!","ERROR!!", JOptionPane.ERROR_MESSAGE);
+            }else{
                 //agrega el nuevo proceso y verifica donde deberia ir
+                nProcesos++;
                 nuevoy = ultimo();
-                Proceso Proces0 = new Proceso(nProcesos, randomN * 5, randomN, nuevoy, 0, Procesos.get(0));
-                Procesos.get(Procesos.size() - 1).setSiguiente(Proces0);
+                Proceso Proces0 = new Proceso(nProcesos, randomN*5, randomN, nuevoy, nuevoy+(randomN*5), Procesos.get(0));
+                Procesos.get(Procesos.size()-1).setSiguiente(Proces0);
                 Procesos.add(Proces0);
-                PropiedadRect nuevo = new PropiedadRect(60, nuevoy, 150, randomN * 5);
-                Rectangulos.add(new Rectangle(60, nuevoy, 150, randomN * 5));
+                PropiedadRect nuevo = new PropiedadRect(60, nuevoy, 150, randomN*5);
+                Rectangulos.add(new Rectangle(60,nuevoy,150,randomN*5));
                 rec.add(nuevo);
+                listModel.addElement("P" + nProcesos + " creado a las " + Hora.getText() + " de duración = " + Procesos.get(Procesos.size()-1).getCantInstrucciones() + " s");
             }
         }
-        listModel.addElement("P" + nProcesos + " creado a las " + Hora.getText() + " de duración = " + Procesos.get(Procesos.size() - 1).getCantInstrucciones() + " s");
-        
-        //Auto scroll de la lista del historial
-        int size = nProcesos - 1;
-        Point p = jListHistorial.indexToLocation(size);
-        int height = (int) (jListHistorial.getPreferredSize().getHeight() / (size + 1));
-        Rectangle r = new Rectangle(p, new Dimension((int) jListHistorial.getPreferredSize().getWidth(), height));
-        jListHistorial.scrollRectToVisible(r);
-        jListHistorial.setSelectedIndex(size);
-        
         repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public int ultimo() {
-        return rec.get(rec.size() - 1).getIniciay() + rec.get(rec.size() - 1).getLargo();
+    public int ultimo(){
+        return rec.get(rec.size()-1).getIniciay() + rec.get(rec.size()-1).getLargo();
     }
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Pruebas de rectángulos:
-        Procesos.remove(0);
-        Rectangulos.remove(0);
-        Procesos.get(Procesos.size() - 1).setSiguiente(Procesos.get(0));
-        repaint();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        for (int i = 0; i < Procesos.size(); i++) {
+        for(int i=0; i<Procesos.size();i++){
             System.out.println("--------- Proceso no. " + i + " ---------");
             System.out.println("Identificador: " + Procesos.get(i).getIdentificador());
             System.out.println("Tamaño: " + Procesos.get(i).getTamaño());
             System.out.println("Instrucciones (s restantes): " + Procesos.get(i).getCantInstrucciones());
             System.out.println("LowerSpot: " + Procesos.get(i).getRegistroBase());
             System.out.println("HigherSpot: " + Procesos.get(i).getRegistroLimite());
-            if (Procesos.size() > 1) {
+            if(Procesos.size()>1){
                 System.out.println("El proceso siguiente es: " + Procesos.get(i).getSiguiente().getIdentificador());
             }
         }
@@ -318,70 +326,95 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    int randomS = 0;
-    int pxLower = 0;
-    int pxHigher = 0;
+    int randomS=0;
+    int pxLower=0;
+    int pxHigher=0;
     boolean avaliable;
-
-    public int lookForAvaliableSpot(int rectangleSize) {
+    public int lookForAvaliableSpot(int rectangleSize){
         System.out.println("-----Nuevo-----");
         avaliable = true;
         // Los valores para agregar procesos están entre 102-496
         randomS = (int) (Math.random() * (496 - 102 + 1) + 102);
-        pxLower = randomS;
-        System.out.println(pxLower);
-        pxHigher = randomS + rectangleSize;
-        System.out.println(pxHigher);
+        pxLower = randomS; System.out.println(pxLower);
+        pxHigher = randomS + rectangleSize; System.out.println(pxHigher);
         System.out.println("El valor de la bandera es " + avaliable);
-        for (int i = 0; i < Procesos.size() - 1; i++) {
-
+        for(int i=0; i<Procesos.size()-1;i++){
+            
             // El nuevo cuadro no está contenido en uno ya creado
-            if (pxLower >= Procesos.get(i).getRegistroBase() && pxLower <= Procesos.get(i).getRegistroLimite()) {
+            
+            if(pxLower >= Procesos.get(i).getRegistroBase() && pxLower <= Procesos.get(i).getRegistroLimite()){
                 System.out.println("El limite inferior interfiere");
                 System.out.println(Procesos.get(i).getRegistroBase());
                 System.out.println(Procesos.get(i).getRegistroLimite());
                 System.out.println(pxLower);
                 avaliable = false;
-            } else if (pxHigher >= Procesos.get(i).getRegistroBase() && pxHigher <= Procesos.get(i).getRegistroLimite()) {
+            }
+            else if(pxHigher >= Procesos.get(i).getRegistroBase() && pxHigher <= Procesos.get(i).getRegistroLimite()){
                 System.out.println("El limite superior interfiere");
                 System.out.println(Procesos.get(i).getRegistroBase());
                 System.out.println(Procesos.get(i).getRegistroLimite());
                 System.out.println(pxHigher);
                 avaliable = false;
-            } // El nuevo cuadro no contiene uno ya creado
-            else if (Procesos.get(i).getRegistroBase() >= pxLower && Procesos.get(i).getRegistroBase() <= pxHigher) {
+            }
+            
+            // El nuevo cuadro no contiene uno ya creado
+            
+            else if(Procesos.get(i).getRegistroBase() >= pxLower && Procesos.get(i).getRegistroBase() <= pxHigher){
                 System.out.println("El limite inferior de un cuadro existente interfiere");
                 System.out.println(Procesos.get(i).getRegistroBase());
                 System.out.println(Procesos.get(i).getRegistroLimite());
                 System.out.println(pxLower);
                 avaliable = false;
-            } else if (Procesos.get(i).getRegistroLimite() >= pxLower && Procesos.get(i).getRegistroLimite() <= pxHigher) {
+            }
+            
+            else if(Procesos.get(i).getRegistroLimite() >= pxLower && Procesos.get(i).getRegistroLimite() <= pxHigher){
                 System.out.println("El limite superior de un cuadro existente interfiere");
                 System.out.println(Procesos.get(i).getRegistroBase());
                 System.out.println(Procesos.get(i).getRegistroLimite());
                 System.out.println(pxLower);
                 avaliable = false;
             }
-
-            if (avaliable == false) {
+            
+            if(avaliable==false){
                 break;
             }
         }
         System.out.println("El valor de la bandera es " + avaliable);
-        if (avaliable == true) {
+        if(avaliable==true){
             //Acá se agregan los atributos de registro base y límite para el planificador
-            Procesos.get(Procesos.size() - 1).setRegistroBase(pxLower);
-            Procesos.get(Procesos.size() - 1).setRegistroLimite(pxHigher);
+            Procesos.get(Procesos.size()-1).setRegistroBase(pxLower);
+            Procesos.get(Procesos.size()-1).setRegistroLimite(pxHigher);
             return randomS;
-        } else {
+        }else{
             System.out.println(avaliable);
-            System.out.println("Se hará de nuevo por fallo");
+            System.out.println("Se hará de nuevo por fallo"); 
             lookForAvaliableSpot(rectangleSize);
         }
         System.out.println("finalizó");
         return randomS;
     }
-
+    
+    
+    public void heredar_valores_rectangulo(int i){
+        if(Procesos.size()>1 && i!=(Procesos.size()-1)){
+            Procesos.get(i+1).setRegistroBase(Procesos.get(i).getRegistroBase());
+            Procesos.get(i+1).setRegistroLimite(Procesos.get(i).getRegistroBase() + Procesos.get(i+1).getTamaño());
+            Rectangulos.get(i+1).setBounds(Rectangulos.get(i+1).x, Rectangulos.get(i).y, Rectangulos.get(i+1).width, Rectangulos.get(i+1).height);
+            rec.get(i+1).setIniciay(Procesos.get(i).getRegistroBase());
+        }     
+    }
+    
+    public void correr_procesos(int i){
+        for(int c=i; c<Procesos.size(); c++){
+            if(c+1 < Procesos.size()){
+                Procesos.get(c+1).setRegistroBase(Procesos.get(c).getRegistroBase() + Procesos.get(c).getTamaño() );
+                Procesos.get(c+1).setRegistroLimite(Procesos.get(c+1).getRegistroBase() + Procesos.get(c+1).getTamaño());
+                Rectangulos.get(c+1).setBounds(Rectangulos.get(c+1).x, (Procesos.get(c).getRegistroBase() + Procesos.get(c).getTamaño()), Rectangulos.get(c).width, Procesos.get(c+1).getTamaño());
+                rec.get(c+1).setIniciay((Procesos.get(c).getRegistroBase() + Procesos.get(c).getTamaño()));
+            }
+        }
+    }
+    
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -394,26 +427,23 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
     }
-
+    
     //Se define un quantum de 10 s
-    public class round_robin extends Thread {
-
+    public class round_robin extends Thread{
         boolean forever = true;
-        int tiempo = 0, pxInicio, barSize;
-        Rectangle a = new Rectangle(0, 0, 119, barSize);
-
-        ;
+        int tiempo = 0, pxInicio, barSize;        
+        Rectangle a = new Rectangle(0,0,119,barSize);;
         @Override
-        public void run() {
+        public void run(){
             ContadorBarra.add(a);
-            while (forever) {
-                while (Procesos.size() > 0) {
-                    for (int i = 0; i < Procesos.size(); i++) {
-                        pxInicio = Procesos.get(i).getRegistroBase() + (Procesos.get(i).getCantInstrucciones() - Procesos.get(i).getTiempoRestante()) * 5;
+            while(forever){
+                while(Procesos.size() > 0){
+                    for(int i=0; i<Procesos.size(); i++){
+                        pxInicio = Procesos.get(i).getRegistroBase() + (Procesos.get(i).getCantInstrucciones()-Procesos.get(i).getTiempoRestante())*5;
                         barSize = 5;
-                        if (Procesos.get(i).getTiempoRestante() > 10) {
-                            for (int j = 0; j < 10; j++) {
-                                a = new Rectangle(60, (pxInicio + (barSize * j)), 150, barSize);
+                        if(Procesos.get(i).getTiempoRestante()>10){
+                            for(int j=0; j<10; j++){
+                                a = new Rectangle(60,(pxInicio + (barSize*j)),150,barSize);
                                 ContadorBarra.set(0, a);
                                 repaint();
                                 try {
@@ -423,9 +453,10 @@ public class Interfaz extends javax.swing.JFrame {
                                 }
                             }
                             Procesos.get(i).setTiempoRestante(Procesos.get(i).getTiempoRestante() - 10);
-                        } else {
-                            for (int j = 0; j < Procesos.get(i).getTiempoRestante(); j++) {
-                                a = new Rectangle(60, (pxInicio + (barSize * j)), 150, barSize);
+                        }
+                        else{
+                            for(int j=0; j<Procesos.get(i).getTiempoRestante(); j++){
+                                a = new Rectangle(60,(pxInicio + (barSize*j)),150,barSize);
                                 ContadorBarra.set(0, a);
                                 repaint();
                                 try {
@@ -435,17 +466,12 @@ public class Interfaz extends javax.swing.JFrame {
                                 }
                             }
                             listModel.addElement("P" + Procesos.get(i).getIdentificador() + " eliminado a las " + Hora.getText());
-                            
-                            //Auto scroll de la tabla del historial
-                            Point p = jListHistorial.indexToLocation(nProcesos);
-                            int height = (int) (jListHistorial.getPreferredSize().getHeight() / (nProcesos + 1));
-                            Rectangle r = new Rectangle(p, new Dimension((int) jListHistorial.getPreferredSize().getWidth(), height));
-                            jListHistorial.scrollRectToVisible(r);
-                            jListHistorial.setSelectedIndex(nProcesos);
-                            
+                            heredar_valores_rectangulo(i);
                             Procesos.remove(i);
                             Rectangulos.remove(i);
-                            if (i != Procesos.size()) {
+                            rec.remove(i);
+                            if(i != Procesos.size()){
+                                correr_procesos(i);
                                 i--;
                             }
                             repaint();
@@ -465,7 +491,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         }
     }
-
+    
     public static String decimalAHexadecimal(int decimal) {
         String hexadecimal = "";
         String caracteresHexadecimales = "0123456789abcdef";
@@ -476,8 +502,8 @@ public class Interfaz extends javax.swing.JFrame {
         }
         return hexadecimal;
     }
-
-    public void paint(Graphics g) {
+    
+    public void paint(Graphics g){
         String posi;
         String posif;
         String hex;
@@ -494,37 +520,37 @@ public class Interfaz extends javax.swing.JFrame {
         g.setColor(letras);
         g.drawString("S.O", 130, 520);
         g.drawString("0x00FH", 10, 501);
-        g.drawString("0x00FH", 10, 551);
+        g.drawString("0x00FH", 10, 551);   
         // Pinta los rectángulos que están en el arraylist
-        for (int i = 0; i < Rectangulos.size(); i++) {
+        for(int i=0; i<Rectangulos.size();i++){
             g.setColor(procesos);
             g.fillRect(Rectangulos.get(i).x, Rectangulos.get(i).y, Rectangulos.get(i).width, Rectangulos.get(i).height);
             g.setColor(letras);
-            posi = decimalAHexadecimal(Rectangulos.get(i).y);
-            g.drawString(posi, Rectangulos.get(i).x - 30, Rectangulos.get(i).y + 5);
+            posi = decimalAHexadecimal(Rectangulos.get(i).y-100);
+            g.drawString(posi, Rectangulos.get(i).x-30, Rectangulos.get(i).y+5);
             g.setColor(lineas);
             g.drawLine(Rectangulos.get(i).x, Rectangulos.get(i).y, 209, Rectangulos.get(i).y);
         }
-        for (int i = 0; i < ContadorBarra.size(); i++) {
+        for(int i=0; i<ContadorBarra.size();i++){
             g.setColor(Color.BLUE);
             g.fillRect(ContadorBarra.get(i).x, ContadorBarra.get(i).y, ContadorBarra.get(i).width, ContadorBarra.get(i).height);
-            System.out.println(ContadorBarra.get(i).y);
             if (ContadorBarra.get(i).y > 0) {
-                hex = decimalAHexadecimal(ContadorBarra.get(i).y);
-                lblbarra.setText(hex);
+               hex = decimalAHexadecimal(ContadorBarra.get(i).y-100);
+               lblbarra.setText(hex);
             }
         }
     }
-
-
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Hora;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelMenuPrincipall;
     private javax.swing.JLabel jLabelMenuPrincipall1;
     private javax.swing.JList<String> jListHistorial;
@@ -532,5 +558,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblbarra;
+    private javax.swing.JLabel lblbarra1;
+    private javax.swing.JLabel lblbarra2;
     // End of variables declaration//GEN-END:variables
 }
