@@ -348,73 +348,73 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    int randomS=0;
-    int pxLower=0;
-    int pxHigher=0;
-    boolean avaliable;
-    public int lookForAvaliableSpot(int rectangleSize){
-        System.out.println("-----Nuevo-----");
-        avaliable = true;
-        // Los valores para agregar procesos están entre 102-496
-        randomS = (int) (Math.random() * (496 - 102 + 1) + 102);
-        pxLower = randomS; System.out.println(pxLower);
-        pxHigher = randomS + rectangleSize; System.out.println(pxHigher);
-        System.out.println("El valor de la bandera es " + avaliable);
-        for(int i=0; i<Procesos.size()-1;i++){
-            
-            // El nuevo cuadro no está contenido en uno ya creado
-            
-            if(pxLower >= Procesos.get(i).getRegistroBase() && pxLower <= Procesos.get(i).getRegistroLimite()){
-                System.out.println("El limite inferior interfiere");
-                System.out.println(Procesos.get(i).getRegistroBase());
-                System.out.println(Procesos.get(i).getRegistroLimite());
-                System.out.println(pxLower);
-                avaliable = false;
-            }
-            else if(pxHigher >= Procesos.get(i).getRegistroBase() && pxHigher <= Procesos.get(i).getRegistroLimite()){
-                System.out.println("El limite superior interfiere");
-                System.out.println(Procesos.get(i).getRegistroBase());
-                System.out.println(Procesos.get(i).getRegistroLimite());
-                System.out.println(pxHigher);
-                avaliable = false;
-            }
-            
-            // El nuevo cuadro no contiene uno ya creado
-            
-            else if(Procesos.get(i).getRegistroBase() >= pxLower && Procesos.get(i).getRegistroBase() <= pxHigher){
-                System.out.println("El limite inferior de un cuadro existente interfiere");
-                System.out.println(Procesos.get(i).getRegistroBase());
-                System.out.println(Procesos.get(i).getRegistroLimite());
-                System.out.println(pxLower);
-                avaliable = false;
-            }
-            
-            else if(Procesos.get(i).getRegistroLimite() >= pxLower && Procesos.get(i).getRegistroLimite() <= pxHigher){
-                System.out.println("El limite superior de un cuadro existente interfiere");
-                System.out.println(Procesos.get(i).getRegistroBase());
-                System.out.println(Procesos.get(i).getRegistroLimite());
-                System.out.println(pxLower);
-                avaliable = false;
-            }
-            
-            if(avaliable==false){
-                break;
-            }
-        }
-        System.out.println("El valor de la bandera es " + avaliable);
-        if(avaliable==true){
-            //Acá se agregan los atributos de registro base y límite para el planificador
-            Procesos.get(Procesos.size()-1).setRegistroBase(pxLower);
-            Procesos.get(Procesos.size()-1).setRegistroLimite(pxHigher);
-            return randomS;
-        }else{
-            System.out.println(avaliable);
-            System.out.println("Se hará de nuevo por fallo"); 
-            lookForAvaliableSpot(rectangleSize);
-        }
-        System.out.println("finalizó");
-        return randomS;
-    }
+//    int randomS=0;
+//    int pxLower=0;
+//    int pxHigher=0;
+//    boolean avaliable;
+//    public int lookForAvaliableSpot(int rectangleSize){
+//        System.out.println("-----Nuevo-----");
+//        avaliable = true;
+//        // Los valores para agregar procesos están entre 102-496
+//        randomS = (int) (Math.random() * (496 - 102 + 1) + 102);
+//        pxLower = randomS; System.out.println(pxLower);
+//        pxHigher = randomS + rectangleSize; System.out.println(pxHigher);
+//        System.out.println("El valor de la bandera es " + avaliable);
+//        for(int i=0; i<Procesos.size()-1;i++){
+//            
+//            // El nuevo cuadro no está contenido en uno ya creado
+//            
+//            if(pxLower >= Procesos.get(i).getRegistroBase() && pxLower <= Procesos.get(i).getRegistroLimite()){
+//                System.out.println("El limite inferior interfiere");
+//                System.out.println(Procesos.get(i).getRegistroBase());
+//                System.out.println(Procesos.get(i).getRegistroLimite());
+//                System.out.println(pxLower);
+//                avaliable = false;
+//            }
+//            else if(pxHigher >= Procesos.get(i).getRegistroBase() && pxHigher <= Procesos.get(i).getRegistroLimite()){
+//                System.out.println("El limite superior interfiere");
+//                System.out.println(Procesos.get(i).getRegistroBase());
+//                System.out.println(Procesos.get(i).getRegistroLimite());
+//                System.out.println(pxHigher);
+//                avaliable = false;
+//            }
+//            
+//            // El nuevo cuadro no contiene uno ya creado
+//            
+//            else if(Procesos.get(i).getRegistroBase() >= pxLower && Procesos.get(i).getRegistroBase() <= pxHigher){
+//                System.out.println("El limite inferior de un cuadro existente interfiere");
+//                System.out.println(Procesos.get(i).getRegistroBase());
+//                System.out.println(Procesos.get(i).getRegistroLimite());
+//                System.out.println(pxLower);
+//                avaliable = false;
+//            }
+//            
+//            else if(Procesos.get(i).getRegistroLimite() >= pxLower && Procesos.get(i).getRegistroLimite() <= pxHigher){
+//                System.out.println("El limite superior de un cuadro existente interfiere");
+//                System.out.println(Procesos.get(i).getRegistroBase());
+//                System.out.println(Procesos.get(i).getRegistroLimite());
+//                System.out.println(pxLower);
+//                avaliable = false;
+//            }
+//            
+//            if(avaliable==false){
+//                break;
+//            }
+//        }
+//        System.out.println("El valor de la bandera es " + avaliable);
+//        if(avaliable==true){
+//            //Acá se agregan los atributos de registro base y límite para el planificador
+//            Procesos.get(Procesos.size()-1).setRegistroBase(pxLower);
+//            Procesos.get(Procesos.size()-1).setRegistroLimite(pxHigher);
+//            return randomS;
+//        }else{
+//            System.out.println(avaliable);
+//            System.out.println("Se hará de nuevo por fallo"); 
+//            lookForAvaliableSpot(rectangleSize);
+//        }
+//        System.out.println("finalizó");
+//        return randomS;
+//    }
     
     
     public void heredar_valores_rectangulo(int i){
@@ -464,7 +464,7 @@ public class Interfaz extends javax.swing.JFrame {
                         pxInicio = Procesos.get(i).getRegistroBase() + (Procesos.get(i).getCantInstrucciones()-Procesos.get(i).getTiempoRestante())*5;
                         barSize = 5;
                         //Actualizacion del label calendarizador
-                        jLabelCalendarizador.setText("P" + (i + 1));
+                        jLabelCalendarizador.setText("P" + String.valueOf(Procesos.get(i).getIdentificador()));
                         //Actualizacion del label de registro base
                         jLabelRB.setText("Registro base: " + Integer.toHexString(Procesos.get(i).getRegistroBase() - 100));
                         //Actualizacion del label de registro limite
